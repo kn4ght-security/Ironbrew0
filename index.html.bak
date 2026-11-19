@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Lightcore — Free Lua/Luau Obfuscator</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="logo">LC</div>
+        <span>Lightcore</span>
+      </div>
+      <nav>
+        <a href="#dashboard" class="nav active" data-page="dashboard">Dashboard</a>
+        <a href="#obfuscate" class="nav" data-page="obfuscate">Obfuscation</a>
+        <a href="#docs" class="nav" data-page="docs">Documentation</a>
+        <a href="#migrate" class="nav" data-page="migrate">Migrating to v1.1</a>
+        <a href="#macros" class="nav" data-page="macros">Macros</a>
+        <a href="#account" class="nav" data-page="account">Account</a>
+      </nav>
+      <div class="side-foot">Free forever · v1 stable</div>
+    </aside>
+
+    <main class="main">
+      <header class="top">
+        <h1 id="page-title">Dashboard</h1>
+        <div class="top-actions">
+          <span class="badge">Tokens: ∞ free</span>
+          <button class="btn cyan" onclick="showPage('obfuscate')">UPLOAD NEW FILE +</button>
+        </div>
+      </header>
+
+      <!-- Dashboard -->
+      <section id="page-dashboard" class="page active">
+        <p class="hello">Hello, <strong>user</strong></p>
+        <div class="grid-3">
+          <div class="card">
+            <h3>Plan</h3>
+            <div class="plan-icon">☺</div>
+            <p class="muted">Lightcore Free</p>
+            <p class="price">$0 / forever</p>
+            <p class="muted small">No paid tiers required</p>
+          </div>
+          <div class="card card-purple">
+            <h3>Obfuscation <span class="dot">Not Running</span></h3>
+            <p class="big-center">No obfuscations are currently running</p>
+            <div class="steps">
+              <div class="step"><span>1</span> Preparing & Compiling <div class="bar"></div></div>
+              <div class="step"><span>2</span> Obfuscating <div class="bar b2"></div></div>
+              <div class="step"><span>3</span> Finishing Up <div class="bar b3"></div></div>
+            </div>
+          </div>
+          <div class="card">
+            <h3>Your Account</h3>
+            <div class="illus">◇</div>
+            <button class="link" onclick="showPage('account')">ACCOUNT +</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- Obfuscate -->
+      <section id="page-obfuscate" class="page">
+        <div class="upload-hero" id="dropzone">
+          <h2>Upload a file to obfuscate</h2>
+          <p class="muted">.lua · .luau · .txt — runs locally in your browser session (demo UI)</p>
+          <label class="btn cyan file-btn">
+            UPLOAD NEW FILE +
+            <input type="file" id="file-input" accept=".lua,.luau,.txt" hidden />
+          </label>
+        </div>
+
+        <div class="card settings" id="settings" hidden>
+          <h3>Settings</h3>
+          <div class="settings-grid">
+            <label class="toggle"><input type="checkbox" id="opt-at" checked /> Anti-Tamper (AT-VM)</label>
+            <label class="toggle"><input type="checkbox" id="opt-vm" checked /> VM MAX</label>
+            <label class="toggle"><input type="checkbox" id="opt-cff" /> CFF MAX</label>
+            <label class="toggle"><input type="checkbox" id="opt-static" /> Static Environment</label>
+            <label class="toggle"><input type="checkbox" id="opt-compress" checked /> VM Compression</label>
+            <label class="toggle"><input type="checkbox" id="opt-line" /> Disable Line Info</label>
+            <label class="toggle"><input type="checkbox" id="opt-debug" /> Use Debug Library</label>
+            <label class="toggle"><input type="checkbox" id="opt-hardcode" /> Hardcode Globals</label>
+            <label class="toggle"><input type="checkbox" id="opt-compat" /> Compatibility Mode</label>
+            <label class="toggle"><input type="checkbox" id="opt-gc" /> Enable GC Fixes</label>
+            <label class="toggle"><input type="checkbox" id="opt-novm" /> LC_NO_VIRTUALIZE</label>
+          </div>
+          <div class="row">
+            <label>Target
+              <select id="opt-target">
+                <option value="roblox">Roblox</option>
+                <option value="luau">Luau</option>
+                <option value="lua51">Lua 5.1</option>
+              </select>
+            </label>
+            <label>Node
+              <select id="opt-node">
+                <option value="v1">v1 (stable — kept forever)</option>
+                <option value="v1.1">v1.1 (newer)</option>
+                <option value="beta">beta</option>
+              </select>
+            </label>
+            <label>Opt Level
+              <select id="opt-level">
+                <option>1</option>
+                <option selected>2</option>
+                <option>3</option>
+              </select>
+            </label>
+          </div>
+          <button class="btn cyan" id="btn-run">Obfuscate</button>
+          <pre id="status" class="status"></pre>
+        </div>
+
+        <div class="card">
+          <h3>Recent Obfuscations</h3>
+          <table class="hist">
+            <thead><tr><th>Date</th><th>Status</th><th>Action</th></tr></thead>
+            <tbody id="history-body">
+              <tr><td colspan="3" class="muted">END OF HISTORY</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
+
+      <!-- Docs -->
+      <section id="page-docs" class="page">
+        <div class="grid-docs">
+          <div class="card tall">
+            <h2>Obfuscation Guide</h2>
+            <p class="muted">Using Lightcore and all available customizations.</p>
+            <a class="link" href="#macros">FIND OUT MORE +</a>
+          </div>
+          <div class="docs-tiles">
+            <a class="tile" href="#macros"><span>API / Macros</span><em>FIND OUT MORE +</em></a>
+            <a class="tile" href="#migrate"><span>Migrating to v1.1</span><em>FIND OUT MORE +</em></a>
+            <a class="tile" href="#docs"><span>Settings</span><em>FIND OUT MORE +</em></a>
+            <a class="tile" href="#docs"><span>Performance</span><em>FIND OUT MORE +</em></a>
+            <a class="tile" href="#docs"><span>Updates</span><em>FIND OUT MORE +</em></a>
+            <a class="tile" href="#docs"><span>Limitations</span><em>FIND OUT MORE +</em></a>
+          </div>
+        </div>
+      </section>
+
+      <!-- Migrate v1.1 -->
+      <section id="page-migrate" class="page">
+        <div class="card">
+          <h2>Migrating to v1.1</h2>
+          <p class="banner-note">Looking for v1 documentation? v1 is <strong>kept forever</strong> as the stable node. v1.1 adds newer AT-VM and panel options.</p>
+          <ul class="list">
+            <li><strong>v1</strong> — stable generator marker <code>lightcore:tm:v1</code>. Supported indefinitely.</li>
+            <li><strong>v1.1</strong> — encrypted AT-VM, host decrypt+loadstring, trollface AT fail, richer options.</li>
+            <li>Macros use the <code>LC_</code> prefix (not third-party names).</li>
+            <li>Discord bot: pick <em>Node: v1</em> or <em>Node: v1.1</em> in Target + Node.</li>
+            <li>No paid tokens — this site and the CLI are free.</li>
+          </ul>
+          <pre class="code">-- output header examples
+-- Lightcore v1 | lightcore:tm:v1
+-- Lightcore v1.1 | lightcore:tm:v1.1</pre>
+        </div>
+      </section>
+
+      <!-- Macros -->
+      <section id="page-macros" class="page">
+        <div class="card">
+          <h2>Macros (LC_)</h2>
+          <p class="muted">Reserved prefix <code>LC_</code>. Shim as globals when not obfuscated.</p>
+          <pre class="code">if not LC_OBFUSCATED then
+  LC_OBFUSCATED = false
+  LC_LINE = 0
+  function LC_ENCSTR(s) return s end
+  function LC_OPAQUE(v) return v end
+end
+
+-- LC_LINE is a number, not a function
+local line = LC_LINE
+if LC_OBFUSCATED then
+  -- production path
+end</pre>
+          <table class="hist">
+            <tr><td><code>LC_ENCSTR</code></td><td>Encrypt string constant</td></tr>
+            <tr><td><code>LC_OPAQUE</code></td><td>Opaque true/false predicate</td></tr>
+            <tr><td><code>LC_CRASH</code></td><td>Abort VM context</td></tr>
+            <tr><td><code>LC_NO_VIRTUALIZE</code></td><td>Panel: skip VM</td></tr>
+            <tr><td><code>LC_OBFUSCATED</code></td><td>Boolean compile flag</td></tr>
+            <tr><td><code>LC_LINE</code></td><td>Line number value</td></tr>
+          </table>
+        </div>
+      </section>
+
+      <!-- Account -->
+      <section id="page-account" class="page">
+        <div class="card">
+          <h3>Account Information & Management</h3>
+          <div class="field"><label>Full Name</label><div class="pill">local user</div></div>
+          <div class="field"><label>Email</label><div class="pill">free@localhost</div></div>
+          <p class="muted">No signup required for local/CLI use. Discord bot uses captcha in DMs.</p>
+        </div>
+        <div class="card">
+          <h3>Plan & Billing</h3>
+          <p class="price">$0 / forever</p>
+          <p class="muted">Lightcore is free. No invoices.</p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script src="js/app.js"></script>
+</body>
+</html>
